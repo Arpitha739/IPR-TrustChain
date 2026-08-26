@@ -646,39 +646,123 @@ Install:
 - Maven
 - Git
 
-Optional IDEs:
+### Development Tools Used
 
-- Eclipse / Spring Tool Suite
-- Visual Studio Code
+- **Frontend:** Visual Studio Code
+- **Backend:** Eclipse 
+- **Blockchain Module:** Visual Studio Code
+- **Database:** PostgreSQL
+
+ ---
+
+# ⚠️ Important: Required Services
+
+IPR TrustChain runs as multiple local services.
+
+For the complete application to work correctly, the following components should be running:
+
+1. PostgreSQL Database
+2. Hardhat Local Blockchain Node
+3. Node.js Blockchain API
+4. Spring Boot Backend
+5. React Frontend
 
 ---
 
-# ⚙️ Backend Setup
+# 🗄️ Step 1: Start PostgreSQL
 
-### 1. Clone the Repository
-
-```bash
-git clone <repository-url>
-```
-
-### 2. Navigate to the Backend
-
-```bash
-cd ipr-trustchain-backend
-```
-
-### 3. Create a PostgreSQL Database
+Create the database:
 
 ```sql
 CREATE DATABASE ipr_trustchain_backend;
 ```
 
-### 4. Create Local Configuration
+Make sure PostgreSQL is running before starting the Spring Boot backend.
 
-Copy:
+---
+
+# ⛓️ Step 2: Start the Local Blockchain Network
+
+Open a terminal and navigate to the blockchain project:
+
+```bash
+cd ipr-trustchain-blockchain
+```
+
+Install dependencies:
+
+```bash
+npm install
+```
+
+Compile the Solidity smart contracts:
+
+```bash
+npx hardhat compile
+```
+
+Start the local Hardhat blockchain network:
+
+```bash
+npx hardhat node
+```
+
+The local blockchain network runs at:
 
 ```text
-src/main/resources/application.properties.example
+http://127.0.0.1:8545
+```
+
+Keep this terminal running while using the application.
+
+The local blockchain automatically deploys the `IPRRegistry` smart contract when the configured development environment starts.
+
+---
+
+# 🔗 Step 3: Start the Blockchain API
+
+Open a **new terminal** inside the blockchain project directory:
+
+```bash
+cd ipr-trustchain-blockchain
+```
+
+Start the Blockchain API:
+
+```bash
+npx tsx server.ts
+```
+
+The Blockchain API runs on:
+
+```text
+http://localhost:3001
+```
+
+Expected output:
+
+```text
+Blockchain API running on port 3001
+```
+
+Keep this terminal running.
+
+The Blockchain API acts as a bridge between the Spring Boot backend and the Solidity smart contract running on the local Hardhat blockchain.
+
+---
+
+# ⚙️ Step 4: Configure and Run the Backend
+
+Open the backend project in:
+
+```text
+Eclipse / Spring Tool Suite
+```
+
+Navigate to:
+
+```text
+ipr-trustchain-backend
 ```
 
 Create:
@@ -687,9 +771,7 @@ Create:
 src/main/resources/application.properties
 ```
 
-Configure your local database credentials and other required environment-specific values.
-
-Example:
+Configure the PostgreSQL database:
 
 ```properties
 spring.datasource.url=jdbc:postgresql://localhost:5432/ipr_trustchain_backend
@@ -703,9 +785,7 @@ jwt.secret=YOUR_JWT_SECRET
 jwt.expiration=86400000
 ```
 
-### 5. Run the Backend
-
-Using Maven:
+Run the Spring Boot application using Eclipse / Spring Tool Suite or Maven:
 
 ```bash
 mvn spring-boot:run
@@ -717,11 +797,19 @@ The backend runs on:
 http://localhost:8080
 ```
 
+Keep the backend running.
+
 ---
 
-# 💻 Frontend Setup
+# 💻 Step 5: Run the Frontend
 
-Navigate to the frontend:
+Open the frontend project in:
+
+```text
+Visual Studio Code
+```
+
+Navigate to:
 
 ```bash
 cd ipr-trustchain-frontend
@@ -733,13 +821,19 @@ Install dependencies:
 npm install
 ```
 
-Start the development server:
+Start the React application:
 
 ```bash
 npm run dev
 ```
 
-The frontend typically runs on:
+The frontend runs at:
+
+```text
+http://localhost:5173
+```
+
+Open the application in your browser:
 
 ```text
 http://localhost:5173
@@ -747,30 +841,65 @@ http://localhost:5173
 
 ---
 
-# ⛓️ Blockchain Setup
+# 🏗️ Local Development Architecture
 
-Navigate to:
-
-```bash
-cd ipr-trustchain-blockchain
+```text
+                         ┌──────────────────────┐
+                         │   React Frontend     │
+                         │ localhost:5173       │
+                         └──────────┬───────────┘
+                                    │
+                                    │ REST API
+                                    ▼
+                         ┌──────────────────────┐
+                         │ Spring Boot Backend  │
+                         │ localhost:8080       │
+                         └───────┬────────┬─────┘
+                                 │        │
+                                 │        │
+                                 ▼        ▼
+                     ┌──────────────┐  ┌─────────────────────┐
+                     │ PostgreSQL   │  │ Blockchain API      │
+                     │ Database     │  │ localhost:3001      │
+                     └──────────────┘  └──────────┬──────────┘
+                                                  │
+                                                  ▼
+                                      ┌─────────────────────┐
+                                      │ Hardhat Blockchain  │
+                                      │ 127.0.0.1:8545      │
+                                      └──────────┬──────────┘
+                                                 │
+                                                 ▼
+                                      ┌─────────────────────┐
+                                      │ Solidity Smart      │
+                                      │ Contract            │
+                                      │ IPRRegistry         │
+                                      └─────────────────────┘
 ```
 
-Install dependencies:
+---
 
-```bash
-npm install
+# 🔄 Complete Startup Order
+
+For the smoothest local execution, start the services in the following order:
+
+```text
+1. PostgreSQL
+        ↓
+2. Hardhat Local Blockchain
+   npx hardhat node
+        ↓
+3. Blockchain API
+   npx tsx server.ts
+        ↓
+4. Spring Boot Backend
+   mvn spring-boot:run
+        ↓
+5. React Frontend
+   npm run dev
 ```
 
-The blockchain module contains:
-
-- Solidity Smart Contracts
-- Hardhat Configuration
-- Deployment Scripts
-- Registration Scripts
-- Verification Scripts
-- Test Files
-
-The exact blockchain configuration should be set according to the environment used for the project.
+All services should remain running while using the application.
 
 ---
 
@@ -968,12 +1097,13 @@ The current version demonstrates a complete Intellectual Property evidence lifec
 
 ### Current Development Environment
 
-| Component | Technology | Local URL / Environment |
+| Component | Technology | Environment |
 |---|---|---|
 | Frontend | React + TypeScript + Vite | `http://localhost:5173` |
 | Backend | Spring Boot + Java | `http://localhost:8080` |
-| Blockchain API | Node.js Service | `http://localhost:3001` |
-| Database | PostgreSQL | Local PostgreSQL Instance |
+| Blockchain API | Node.js + TypeScript | `http://localhost:3001` |
+| Blockchain Network | Hardhat Local Node | `http://127.0.0.1:8545` |
+| Database | PostgreSQL | Local Instance |
 
 ---
 
