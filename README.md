@@ -548,8 +548,6 @@ The application stores data related to:
 - Digital Identities
 - Intellectual Property Assets
 - Documents
-- Evidence Hashes
-- Blockchain Transaction Information
 - Audit Logs
 
 PostgreSQL stores application data and metadata, while the blockchain layer stores cryptographic proof information.
@@ -832,32 +830,61 @@ Suggested structure:
 
 ```text
 screenshots/
-├── login.png
-├── register.png
-├── creator-dashboard.png
-├── create-ip.png
-├── evidence-upload.png
-├── blockchain-registration.png
-├── digital-passport.png
-├── verification-authentic.png
-├── verification-tampered.png
-└── audit-trail.png
+├── IPR-Admin.png
+├── IPR-Audit.png
+├── IPR-Authentic.png
+├── IPR-IPPasport.png
+├── IPR-Tampered.png
+├── IPR-Verify.png
+├── IPR-creator.png
+├── IPR-home.png
+├── IPR-login.png
+└── IPR-register.png
 ```
 
 Example usage:
 
 ```markdown
+## HomePage
+
+![Home](screenshots/IPR-home.png)
+
 ## Login
 
-![Login](screenshots/login.png)
+![Login](screenshots/IPR-login.png)
 
 ## IP Asset Registration
 
-![IP Registration](screenshots/create-ip.png)
+![IP Registration](screenshots/IPR-register.png)
+
+## Creator DashBoard
+
+![DashBoard](screenshots/IPR-creator.png)
+
+## IPPasport
+
+![IPPasport](screenshots/IPR-IPPasport.png)
+
+## IP Audit
+
+![Audit](screenshots/IPR-Audit.png)
+
+## Verify
+
+![Verify](screenshots/IPR-Verify.png)
 
 ## Evidence Verification
 
-![Verification](screenshots/verification-authentic.png)
+![Verification](screenshots/IPR-Authentic.png)
+
+## Evidence Tampered
+
+![Tampered](screenshots/IPR-Tampered.png)
+
+## Admin Page
+
+![Admin](screenshots/IPR-Admin.png)
+
 ```
 
 ---
