@@ -861,7 +861,7 @@ screenshots/
 
 ## IPPasport
 
-![IPPasport](screenshots/IPR-IPPasport.png)
+![IPPasport](screenshots/IPR-IPPassport.png)
 
 ## IP Audit
 
@@ -873,7 +873,7 @@ screenshots/
 
 ## Evidence Verification
 
-![Verification](screenshots/IPR-Authentic.png)
+![Verification](screenshots/IPR-Aunthentic.png)
 
 ## Evidence Tampered
 
