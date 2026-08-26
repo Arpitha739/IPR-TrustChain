@@ -842,9 +842,7 @@ screenshots/
 └── IPR-register.png
 ```
 
-Example usage:
 
-```markdown
 ## HomePage
 
 ![Home](screenshots/IPR-home.png)
