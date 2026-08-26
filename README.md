@@ -883,7 +883,6 @@ screenshots/
 
 ![Admin](screenshots/IPR-Admin.png)
 
-```
 
 ---
 
