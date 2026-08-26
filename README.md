@@ -1,584 +1,786 @@
-IPR TrustChain
-Digital Identity–Enabled Intellectual Property Protection and Verification Platform
+# 🔐 IPR TrustChain
 
-IPR TrustChain is a blockchain-enabled digital trust platform designed to establish and verify the provenance of Intellectual Property assets.
+### Digital Identity–Enabled Intellectual Property Protection and Verification Platform
 
-The platform enables creators to:
+IPR TrustChain is a full-stack, blockchain-enabled platform designed to establish and verify the provenance and integrity of Intellectual Property (IP) assets.
 
-Create an account and authenticate securely
-Receive a platform-specific Digital Identity (DID)
-Register Intellectual Property assets
-Upload supporting evidence
-Generate SHA-256 cryptographic hashes
-Register evidence proof on blockchain
-Generate a Digital IP Passport
-Generate QR-based verification links
-Allow third parties to independently verify evidence authenticity
-Detect tampered or modified documents
-Maintain a complete audit trail of important lifecycle events
+The platform enables creators to register IP assets, upload supporting evidence, generate cryptographic SHA-256 hashes, create blockchain-backed proof records, and allow third parties to independently verify the integrity of registered evidence.
 
-Important: IPR TrustChain is a digital provenance and evidence-verification platform. It does not replace government IP registration systems or independently establish statutory legal ownership.
+> ⚠️ **Important:** IPR TrustChain is a digital provenance and evidence-verification platform. It does not replace government Intellectual Property registration systems and does not independently establish statutory legal ownership.
 
-🚀 MVP Objective
+---
 
-The core objective of this MVP is to demonstrate the complete Intellectual Property verification lifecycle:
+# 🚀 Project Objective
 
+The objective of this MVP is to demonstrate an end-to-end Intellectual Property evidence and verification lifecycle.
+
+```text
 Creator Registration
         ↓
 Digital Identity Generation
         ↓
-Login
+User Authentication
         ↓
-Register IP Asset
+IP Asset Registration
         ↓
-Generate Unique IP Identifier
+Unique IP Identifier Generation
         ↓
-Upload Evidence
+Evidence Upload
         ↓
-Generate SHA-256 Hash
+SHA-256 Hash Generation
         ↓
-Register Evidence Proof on Blockchain
+Blockchain Proof Registration
         ↓
-Generate Digital IP Passport
+Digital IP Passport
         ↓
-Generate QR Verification Link
+QR-Based Verification
         ↓
 Third-Party Verification
         ↓
 Authentic / Tampered Result
-🏗️ Project Architecture
-                         ┌─────────────────────┐
-                         │      FRONTEND       │
-                         │ React + TypeScript  │
-                         │ Tailwind CSS        │
-                         └──────────┬──────────┘
-                                    │
-                                    │ REST API
-                                    ▼
-                         ┌─────────────────────┐
-                         │      BACKEND        │
-                         │ Spring Boot + Java  │
-                         │ Spring Security     │
-                         │ JWT Authentication │
-                         └──────────┬──────────┘
-                                    │
-                    ┌───────────────┼───────────────┐
-                    ▼               ▼               ▼
-             ┌────────────┐  ┌────────────┐  ┌─────────────┐
-             │ PostgreSQL │  │ Blockchain │  │ File Storage│
-             │  Database  │  │ Smart      │  │ Evidence    │
-             │            │  │ Contract   │  │ Documents   │
-             └────────────┘  └────────────┘  └─────────────┘
-                                    │
-                                    ▼
-                         ┌─────────────────────┐
-                         │ Blockchain Proof    │
-                         │ Transaction Hash    │
-                         │ Evidence Hash       │
-                         └─────────────────────┘
-📁 Project Structure
-IPR-TRUSTCHAIN/
+```
+
+---
+
+# ✨ Key Features
+
+- User Registration and Authentication
+- JWT-Based Security
+- Role-Based Access Control
+- Forgot Password and Password Reset
+- Email OTP Verification
+- Platform-Specific Digital Identity
+- Intellectual Property Registration
+- Unique IP Identifier Generation
+- Evidence Document Upload
+- SHA-256 Cryptographic Hashing
+- Blockchain-Backed Evidence Registration
+- Blockchain Transaction Tracking
+- Public IP Verification
+- Authentic Evidence Verification
+- Tampered or Different File Detection
+- Digital IP Passport
+- Passport Download
+- QR-Based Verification
+- Audit Trail
+- Admin Dashboard
+- Global Exception Handling
+
+---
+
+# 🏗️ Architecture Overview
+
+```text
+┌─────────────────────────────┐
+│          FRONTEND           │
+│ React + TypeScript + Vite   │
+│ Tailwind CSS                │
+└──────────────┬──────────────┘
+               │
+               │ REST APIs / Axios
+               ▼
+┌─────────────────────────────┐
+│           BACKEND           │
+│      Spring Boot + Java     │
+│   Spring Security + JWT     │
+└──────────────┬──────────────┘
+               │
+       ┌───────┼────────┐
+       ▼       ▼        ▼
+┌──────────┐ ┌──────────────┐ ┌──────────────┐
+│PostgreSQL│ │  Blockchain  │ │ File Storage │
+│ Database │ │Smart Contract│ │   Evidence   │
+└──────────┘ └──────────────┘ └──────────────┘
+                    │
+                    ▼
+          ┌─────────────────┐
+          │ Blockchain Proof│
+          │ Evidence Hash   │
+          │ Transaction Data│
+          └─────────────────┘
+```
+
+---
+
+# 🛠️ Tech Stack
+
+## Frontend
+
+- React
+- TypeScript
+- Vite
+- Tailwind CSS
+- Axios
+- React Router
+
+## Backend
+
+- Java
+- Spring Boot
+- Spring Security
+- JWT Authentication
+- Spring Data JPA
+- Hibernate
+- Maven
+
+## Database
+
+- PostgreSQL
+
+## Blockchain
+
+- Solidity
+- Smart Contract
+- EVM-Compatible Blockchain Environment
+- Cryptographic Evidence Hash Registration
+
+## Development Tools
+
+- Visual Studio Code
+- Eclipse / Spring Tool Suite
+- PostgreSQL
+- npm
+- Maven
+- Git
+
+---
+
+# 📁 Project Structure
+
+```text
+IPR-TrustChain-MVP/
 │
 ├── ipr-trustchain-frontend/
 │   │
 │   ├── src/
 │   │   ├── api/
+│   │   ├── assets/
 │   │   ├── components/
 │   │   ├── context/
+│   │   ├── layouts/
 │   │   ├── pages/
 │   │   ├── types/
-│   │   └── App.tsx
+│   │   ├── App.tsx
+│   │   └── main.tsx
 │   │
-│   ├── React
-│   ├── TypeScript
-│   ├── Tailwind CSS
-│   └── Vite
+│   ├── public/
+│   ├── package.json
+│   └── vite.config.ts
 │
 ├── ipr-trustchain-backend/
 │   │
-│   └── src/main/java/com/iprtrustchain/
-│       ├── config/
-│       ├── controller/
-│       ├── dto/
-│       ├── entity/
-│       ├── enums/
-│       ├── exception/
-│       ├── repository/
-│       ├── security/
-│       └── service/
+│   ├── src/
+│   │   └── main/
+│   │       ├── java/
+│   │       │   └── com/iprtrustchain/
+│   │       │       ├── config/
+│   │       │       ├── controller/
+│   │       │       ├── dto/
+│   │       │       ├── entity/
+│   │       │       ├── enums/
+│   │       │       ├── exception/
+│   │       │       ├── repository/
+│   │       │       ├── security/
+│   │       │       └── service/
+│   │       │
+│   │       └── resources/
+│   │           └── application.properties.example
+│   │
+│   └── pom.xml
 │
-├── blockchain/
+├── ipr-trustchain-blockchain/
 │   │
 │   ├── contracts/
-│   │   └── IPRTrustChain.sol
+│   │   └── IPRRegistry.sol
 │   │
 │   ├── scripts/
-│   ├── artifacts/
-│   └── configuration files
+│   ├── test/
+│   ├── package.json
+│   └── hardhat.config.ts
 │
-├── PostgreSQL Database
+├── .gitignore
 │
 └── README.md
-🛠️ Technology Stack
-Frontend
-React
-TypeScript
-Vite
-Tailwind CSS
-Axios
-React Router
-Backend
-Java
-Spring Boot
-Spring Security
-JWT Authentication
-Spring Data JPA
-Hibernate
-Maven
-Database
-PostgreSQL
-Blockchain
-Solidity Smart Contract
-EVM-compatible blockchain environment
-Blockchain transaction hashes
-Evidence hash registration and verification
-Development Tools
-Visual Studio Code
-PostgreSQL
-Spring Boot
-npm
-Maven
-🔐 Authentication & Authorization
+```
 
-The platform implements JWT-based authentication and Role-Based Access Control.
+---
 
-Supported Roles
-CREATOR
+# 🔐 Authentication and Authorization
 
-Can:
+The application implements JWT-based authentication and role-based access control.
 
-Register and login
-Receive Digital Identity
-Create IP assets
-Upload evidence
-Register blockchain proof
-View Digital IP Passport
-Generate QR verification
-View audit history
-VERIFIER
+## Authentication Features
 
-Can:
+- User Registration
+- User Login
+- BCrypt Password Hashing
+- JWT Token Generation
+- JWT Authentication Filter
+- Protected APIs
+- Role-Based Access Control
+- Forgot Password
+- Email OTP Verification
+- Password Reset
+- Global Exception Handling
 
-Access verification functionality
-Verify IP records
-Upload original evidence
-Validate SHA-256 hashes
-ADMIN
+---
 
-Can manage and inspect:
+# 👥 Supported Roles
 
-Users
-IP assets
-Blockchain records
-Audit logs
-Platform activities
-🔑 Authentication Features
+## 👩‍💻 CREATOR
 
-Implemented:
+Creators can:
 
-User Registration
-Secure Password Hashing using BCrypt
-Login
-JWT Token Generation
-JWT Authentication Filter
-Role-Based Access Control
-Logout on frontend
-Forgot Password
-Email OTP Verification
-Password Reset
-Global Exception Handling
-🪪 Digital Identity
+- Register and authenticate
+- Receive a platform-specific Digital Identity
+- Create IP assets
+- Upload evidence documents
+- Generate evidence hashes
+- Register blockchain proof
+- View Digital IP Passport
+- Generate QR verification
+- View audit history
 
-When a Creator registers, the system automatically generates a platform-specific Decentralized Identifier.
+## 🔍 VERIFIER
+
+Verifiers can:
+
+- Access verification functionality
+- Verify registered IP records
+- Upload evidence for integrity verification
+- Validate SHA-256 hashes
+- Detect modified or different files
+
+## 🛡️ ADMIN
+
+Administrators can inspect platform data including:
+
+- Users
+- IP Assets
+- Audit Logs
+- Platform Activities
+
+---
+
+# 🪪 Digital Identity
+
+When a creator registers, the platform generates a unique platform-specific Digital Identity.
 
 Example:
 
+```text
 did:iprtrustchain:bf36532a-3eb3-4103-bdbb-4438308d939b
+```
 
-The Digital Identity is associated with the creator and used as part of the IP provenance layer.
+The Digital Identity is associated with the creator and acts as part of the IP provenance layer.
 
-This MVP identity is platform-specific and does not claim government identity verification.
+> This MVP implements a platform-specific DID and does not claim government identity verification.
 
-📦 IP Asset Registration
+---
+
+# 📦 IP Asset Registration
 
 Creators can register Intellectual Property assets.
 
 Supported information includes:
 
-IP Title
-Description
-IP Type
-Creator
-Owner
-Creation Information
-Asset Metadata
+- IP Title
+- Description
+- IP Type
+- Creator Information
+- Owner Information
+- Creation Details
+- Asset Metadata
 
-The system automatically generates a unique IP Identifier.
+The backend automatically generates a unique IP Identifier.
 
 Example:
 
+```text
 IPR-493d8628-e0d4-4b02-832b-f26ab8b0f0e4
-📄 Digital Evidence Upload
+```
+
+---
+
+# 📄 Digital Evidence and SHA-256 Hashing
 
 Creators can upload supporting evidence documents.
 
-When a document is uploaded:
+The evidence processing flow is:
 
+```text
 Document Uploaded
         ↓
 SHA-256 Hash Generated
         ↓
 Hash Stored
         ↓
-Associated with IP Asset
+Evidence Associated With IP Asset
         ↓
-Blockchain Registration
+Blockchain Proof Registration
+```
 
 Example SHA-256 hash:
 
+```text
 10d081ca2f7709ddd1951e93fca70ce1f7f3c2c1a8cb3572b996683e679169b2
+```
 
-The original document itself is not stored on the blockchain.
+The original document is kept off-chain.
 
-Only cryptographic proof and related blockchain information are recorded.
+The blockchain layer stores cryptographic proof information rather than the complete document.
 
-⛓️ Blockchain Integration
+---
 
-The project contains a dedicated:
+# ⛓️ Blockchain Layer
 
-blockchain/
+The project contains a dedicated blockchain module:
 
-folder containing the blockchain and smart contract implementation.
+```text
+ipr-trustchain-blockchain/
+```
 
-The blockchain layer is responsible for recording cryptographic evidence related to Intellectual Property assets.
+The blockchain layer is responsible for maintaining tamper-evident proof associated with IP evidence.
 
-Blockchain records include information such as:
+Blockchain records can include:
 
-IP Asset ID
-Evidence SHA-256 Hash
-Creator DID
-Timestamp
-Transaction ID
+- IP Asset Identifier
+- Evidence SHA-256 Hash
+- Creator Digital Identity
+- Timestamp
+- Transaction Identifier
 
-Example transaction:
+Example transaction reference:
 
+```text
 0xcd4d84bdc4775297276c35107dc32508d9d12c45f1e292290f8d71131d9b28ef
+```
 
-The blockchain layer does not store:
+## The Blockchain Layer Does Not Store
 
-Original documents
-Passwords
-Email addresses
-Mobile numbers
-Sensitive personal information
-Confidential IP content
-📜 Smart Contract
+- Original Documents
+- Passwords
+- Email Addresses
+- Mobile Numbers
+- Sensitive Personal Information
+- Confidential IP Content
 
-The blockchain module contains a Solidity smart contract responsible for recording IP-related proof and events.
+---
 
-The smart contract architecture supports core operations such as:
+# 📜 Smart Contract
 
-registerAsset()
-addEvidence()
-recordEvent()
-getAsset()
-verifyEvidence()
-getAssetHistory()
+The blockchain module contains a Solidity smart contract responsible for recording IP-related cryptographic proof.
 
-The smart contract acts as a trust and verification layer rather than a storage location for full documents.
+The smart contract acts as a trust and verification layer rather than a storage location for complete documents.
 
-🔍 Public IP Verification
+Its purpose is to support blockchain-backed registration and verification of cryptographic evidence associated with Intellectual Property assets.
 
-Anyone can verify an Intellectual Property asset using its IP Identifier.
+---
 
-Example flow:
+# 🔍 Public IP Verification
 
+Third parties can verify an Intellectual Property asset using its unique IP Identifier.
+
+```text
 Enter IP Identifier
         ↓
 Retrieve IP Record
         ↓
-Retrieve Blockchain Proof
+Retrieve Evidence and Proof Information
         ↓
-Display Public Metadata
-        ↓
-Blockchain Verified
+Display Verification Result
+```
 
 Example:
 
+```text
 IP Title:
 EcoPulse
 
 IP Identifier:
 IPR-493d8628-e0d4-4b02-832b-f26ab8b0f0e4
 
-Evidence:
-ECOPULSE.pdf
-
 Blockchain Status:
 VERIFIED
-🧪 Evidence Integrity Verification
+```
 
-The platform supports cryptographic verification of original evidence.
+---
 
-Authentic Document
+# 🧪 Evidence Integrity Verification
+
+## ✅ Authentic Evidence
+
+```text
 Original Document
         ↓
-SHA-256 Generated
+Generate SHA-256 Hash
         ↓
-Hash Compared
+Compare With Registered Evidence Hash
         ↓
-Matches Registered Blockchain Evidence
+Hash Matches
         ↓
 ✓ AUTHENTIC EVIDENCE
+```
 
 Result:
 
+```text
 AUTHENTIC
 
-Evidence integrity verified successfully
-against blockchain proof.
-Tampered Document
+Evidence integrity verified successfully against blockchain proof.
+```
+
+---
+
+## ❌ Modified or Different Evidence
+
+```text
 Modified Document
         ↓
-New SHA-256 Generated
+Generate SHA-256 Hash
         ↓
-Hash Compared
+Compare With Registered Evidence Hash
         ↓
-Does Not Match Registered Evidence
+Hash Does Not Match
         ↓
 ✕ VERIFICATION FAILED
+```
 
 Result:
 
+```text
 TAMPERED OR DIFFERENT FILE
+```
 
-Evidence Verification Failed
+This demonstrates how even a small modification to a document produces a completely different cryptographic hash.
 
-This demonstrates that modifying the document produces a different cryptographic hash.
+---
 
-🛂 Digital IP Passport
+# 🛂 Digital IP Passport
 
 Each registered IP asset can generate a Digital IP Passport.
 
-The passport contains:
+The passport can contain:
 
-IP Identifier
-IP Title
-IP Type
-Description
-Creator Digital Identity
-DID
-Evidence File
-SHA-256 Hash
-Blockchain Transaction ID
-Blockchain Registration Timestamp
-Verification Status
-Audit Trail
-QR Verification
+- IP Identifier
+- IP Title
+- IP Type
+- Description
+- Creator Digital Identity
+- Evidence Information
+- SHA-256 Hash
+- Blockchain Transaction Reference
+- Registration Timestamp
+- Verification Status
+- Audit History
+- QR Verification
 
 Example:
 
+```text
 DIGITAL IP PASSPORT
 
-IP: EcoPulse
+IP:
+EcoPulse
 
 Status:
-✓ VERIFIED
+VERIFIED
 
 Creator DID:
 did:iprtrustchain:bf36532a-3eb3-4103-bdbb-4438308d939b
 
 Evidence:
 ECOPULSE.pdf
+```
 
-Blockchain Transaction:
-0xcd4d84bdc4775297276c35107dc32508d9d12c45f1e292290f8d71131d9b28ef
+---
 
-The Digital IP Passport can also be downloaded.
+# 📱 QR-Based Verification
 
-📱 QR Verification
-
-Each IP asset receives a QR-based verification link.
+Each IP asset can generate a QR-based verification link.
 
 Example:
 
+```text
 /verify/IPR-493d8628-e0d4-4b02-832b-f26ab8b0f0e4
+```
 
-The QR code allows third parties to open the public verification page and independently verify the Intellectual Property record.
+The QR code enables third parties to open the verification page and independently verify the IP record.
 
-📊 Audit Trail
+---
 
-The platform maintains an audit history for important IP lifecycle events.
+# 📊 Audit Trail
 
-Example events:
+The platform maintains an audit history for important lifecycle events.
 
-USER_CREATED
+Example events include:
 
-IDENTITY_CREATED
+- IP_CREATED
+- DOCUMENT_UPLOADED
+- BLOCKCHAIN_REGISTERED
+- EVIDENCE_VERIFIED
 
-IP_CREATED
+Example lifecycle:
 
-DOCUMENT_UPLOADED
-
-HASH_GENERATED
-
-BLOCKCHAIN_REGISTERED
-
-EVIDENCE_VERIFIED
-
-Example audit trail:
-
+```text
 IP CREATED
-25/8/2026, 11:56:26 pm
-
+        ↓
 DOCUMENT UPLOADED
-25/8/2026, 11:56:36 pm
-
+        ↓
+SHA-256 HASH GENERATED
+        ↓
 BLOCKCHAIN REGISTERED
-25/8/2026, 11:56:38 pm
-
+        ↓
 EVIDENCE VERIFIED
-26/8/2026, 12:01:56 am
+```
 
-EVIDENCE VERIFICATION FAILED
-26/8/2026, 12:02:39 am
+This provides a chronological provenance record for each Intellectual Property asset.
 
-This creates a chronological provenance record for each Intellectual Property asset.
+---
 
-🗄️ Database
+# 🗄️ Database
 
 The backend uses PostgreSQL.
 
-Main entities include:
+The application stores data related to:
 
-users
-identities
-ip_assets
-documents
-blockchain_records
-audit_logs
+- Users
+- Digital Identities
+- Intellectual Property Assets
+- Documents
+- Evidence Hashes
+- Blockchain Transaction Information
+- Audit Logs
 
-The database stores application data, metadata, evidence references, hashes, and audit information.
+PostgreSQL stores application data and metadata, while the blockchain layer stores cryptographic proof information.
 
-Sensitive information is kept separate from blockchain proof data.
+---
 
-🔒 Security Features
+# 🔒 Security Features
 
 The current MVP includes:
 
-BCrypt Password Hashing
-JWT Authentication
-Stateless Session Management
-Role-Based Access Control
-Protected APIs
-Global Exception Handling
-SHA-256 Evidence Hashing
-Public/Private Verification Separation
-Audit Logging
-Sensitive Data Excluded from Blockchain Records
-🔌 Main API Modules
-Authentication
+- BCrypt Password Hashing
+- JWT Authentication
+- Stateless Session Management
+- Role-Based Access Control
+- Protected APIs
+- SHA-256 Evidence Hashing
+- Public and Private Verification Separation
+- Audit Logging
+- Global Exception Handling
+- Sensitive Data Separation From Blockchain Proof
+
+---
+
+# 🔌 API Modules
+
+## Authentication
+
+```text
 POST /api/auth/register
 POST /api/auth/login
 POST /api/auth/forgot-password
 POST /api/auth/reset-password
-Digital Identity
-GET /api/identity/me
+```
+
+## Digital Identity
+
+```text
+GET  /api/identity/me
 POST /api/identity/create
-IP Assets
+```
+
+## Intellectual Property
+
+```text
 POST /api/ip
-GET /api/ip
-GET /api/ip/{assetId}
-Documents / Evidence
+GET  /api/ip
+GET  /api/ip/{assetId}
+```
+
+## Evidence Documents
+
+```text
 POST /api/documents/upload
-GET /api/documents/{id}
-Blockchain
+GET  /api/documents/{id}
+```
+
+## Blockchain
+
+```text
 POST /api/blockchain/register
-GET /api/blockchain/{assetId}
-Verification
-GET /api/verify/{assetId}
+GET  /api/blockchain/{assetId}
+```
+
+## Verification
+
+```text
+GET  /api/verify/{assetId}
 POST /api/verify/{assetId}/evidence
-QR
+```
+
+## QR Code
+
+```text
 GET /api/qr/{assetId}
-Audit Logs
+```
+
+## Audit Logs
+
+```text
 GET /api/audit-logs/{assetId}
+```
 
-API endpoint names may vary slightly depending on the implemented controller mappings.
+> API endpoint mappings may vary slightly depending on the controller configuration.
 
-▶️ Running the Project
-1. Clone the Repository
-git clone <your-repository-url>
-cd IPR-TRUSTCHAIN
-Backend Setup
+---
 
-Navigate to:
+# ▶️ Running the Project
 
+## Prerequisites
+
+Install:
+
+- Java 17 or the Java version configured for this project
+- Node.js and npm
+- PostgreSQL
+- Maven
+- Git
+
+Optional IDEs:
+
+- Eclipse / Spring Tool Suite
+- Visual Studio Code
+
+---
+
+# ⚙️ Backend Setup
+
+### 1. Clone the Repository
+
+```bash
+git clone <repository-url>
+```
+
+### 2. Navigate to the Backend
+
+```bash
 cd ipr-trustchain-backend
+```
 
-Configure PostgreSQL in:
+### 3. Create a PostgreSQL Database
 
+```sql
+CREATE DATABASE ipr_trustchain_backend;
+```
+
+### 4. Create Local Configuration
+
+Copy:
+
+```text
+src/main/resources/application.properties.example
+```
+
+Create:
+
+```text
 src/main/resources/application.properties
+```
+
+Configure your local database credentials and other required environment-specific values.
 
 Example:
 
+```properties
 spring.datasource.url=jdbc:postgresql://localhost:5432/ipr_trustchain_backend
-
-spring.datasource.username=postgres
-
-spring.datasource.password=YOUR_PASSWORD
+spring.datasource.username=YOUR_DATABASE_USERNAME
+spring.datasource.password=YOUR_DATABASE_PASSWORD
 
 spring.jpa.hibernate.ddl-auto=update
+spring.jpa.show-sql=true
 
-server.port=8080
+jwt.secret=YOUR_JWT_SECRET
+jwt.expiration=86400000
+```
 
-Run the Spring Boot application:
+### 5. Run the Backend
 
-./mvnw spring-boot:run
+Using Maven:
+
+```bash
+mvn spring-boot:run
+```
 
 The backend runs on:
 
+```text
 http://localhost:8080
-Frontend Setup
+```
 
-Navigate to:
+---
 
+# 💻 Frontend Setup
+
+Navigate to the frontend:
+
+```bash
 cd ipr-trustchain-frontend
+```
 
 Install dependencies:
 
+```bash
 npm install
+```
 
-Start the application:
+Start the development server:
 
+```bash
 npm run dev
+```
 
-The frontend runs on:
+The frontend typically runs on:
 
+```text
 http://localhost:5173
-Blockchain Setup
+```
+
+---
+
+# ⛓️ Blockchain Setup
 
 Navigate to:
 
-cd blockchain
+```bash
+cd ipr-trustchain-blockchain
+```
 
-The blockchain folder contains the Solidity smart contract and related blockchain configuration/scripts.
+Install dependencies:
 
-Deploy and run the blockchain layer according to the configuration used in the project.
+```bash
+npm install
+```
 
-Update this section with your exact blockchain environment name, for example Ganache, Hardhat, or another EVM-compatible local/test network.
+The blockchain module contains:
 
-🧪 Critical MVP Demonstration
-Case 1 — Authentic Evidence
+- Solidity Smart Contracts
+- Hardhat Configuration
+- Deployment Scripts
+- Registration Scripts
+- Verification Scripts
+- Test Files
+
+The exact blockchain configuration should be set according to the environment used for the project.
+
+---
+
+# 🧪 MVP Demonstration
+
+## Case 1 — Authentic Evidence Verification
+
+```text
 1. Register Creator
         ↓
 2. Digital Identity Generated
@@ -587,95 +789,151 @@ Case 1 — Authentic Evidence
         ↓
 4. Create IP Asset
         ↓
-5. Upload Original Document
+5. Upload Original Evidence
         ↓
-6. SHA-256 Generated
+6. SHA-256 Hash Generated
         ↓
-7. Blockchain Proof Created
+7. Register Blockchain Proof
         ↓
-8. IP Passport Generated
+8. Generate Digital IP Passport
         ↓
 9. Open Public Verification
         ↓
-10. Upload Original Document
+10. Upload Original Evidence
         ↓
 ✓ AUTHENTIC EVIDENCE
-Case 2 — Tampered Evidence
-1. Modify Original Document
+```
+
+---
+
+## Case 2 — Tampered or Different Evidence
+
+```text
+1. Use a Modified or Different Evidence File
         ↓
-2. Upload Modified File
+2. Upload the File for Verification
         ↓
-3. SHA-256 Generated Again
+3. SHA-256 Hash Generated
         ↓
-4. Hash Compared with Registered Proof
+4. Compare With Registered Hash
         ↓
 ✕ HASH DOES NOT MATCH
         ↓
 ✕ VERIFICATION FAILED
-🎯 MVP Status
+```
 
-The core end-to-end MVP workflow has been implemented and demonstrated:
+---
 
-Feature	Status
-User Registration	✅
-Login	✅
-JWT Authentication	✅
-Role-Based Access	✅
-Password Reset	✅
-Digital Identity / DID	✅
-IP Registration	✅
-Unique IP Identifier	✅
-Evidence Upload	✅
-SHA-256 Hashing	✅
-Blockchain Proof	✅
-Transaction Tracking	✅
-Public IP Verification	✅
-Authentic Document Verification	✅
-Tampered Document Detection	✅
-Digital IP Passport	✅
-Passport Download	✅
-QR Verification	✅
-Audit Trail	✅
-Global Exception Handling	✅
-PostgreSQL Integration	✅
-🚧 Future Enhancements
+# 📸 Screenshots
 
-Potential Phase 2 features include:
+Application screenshots can be added to a `screenshots/` directory.
 
-W3C Verifiable Credentials
-Ownership Transfer
-Co-ownership
-IP Licensing
-Smart Contract Licensing
-Royalty Management
-Multiple Evidence Versions
-S3 / Cloud Object Storage
-Email Notifications
-Advanced Admin Management
-API Rate Limiting
-Malware Scanning
-Docker
-CI/CD Pipeline
-Cloud Deployment
-Automated Unit Testing
-Integration Testing
-Test Coverage Improvements
-⚠️ Disclaimer
+Suggested structure:
+
+```text
+screenshots/
+├── login.png
+├── register.png
+├── creator-dashboard.png
+├── create-ip.png
+├── evidence-upload.png
+├── blockchain-registration.png
+├── digital-passport.png
+├── verification-authentic.png
+├── verification-tampered.png
+└── audit-trail.png
+```
+
+Example usage:
+
+```markdown
+## Login
+
+![Login](screenshots/login.png)
+
+## IP Asset Registration
+
+![IP Registration](screenshots/create-ip.png)
+
+## Evidence Verification
+
+![Verification](screenshots/verification-authentic.png)
+```
+
+---
+
+# 🎯 MVP Feature Status
+
+| Feature | Status |
+|---|---|
+| User Registration | ✅ |
+| Login | ✅ |
+| JWT Authentication | ✅ |
+| Role-Based Access Control | ✅ |
+| Forgot Password | ✅ |
+| Password Reset | ✅ |
+| Digital Identity | ✅ |
+| IP Registration | ✅ |
+| Unique IP Identifier | ✅ |
+| Evidence Upload | ✅ |
+| SHA-256 Hashing | ✅ |
+| Blockchain Proof Registration | ✅ |
+| Transaction Tracking | ✅ |
+| Public Verification | ✅ |
+| Authentic Evidence Verification | ✅ |
+| Tampered Evidence Detection | ✅ |
+| Digital IP Passport | ✅ |
+| Passport Download | ✅ |
+| QR Verification | ✅ |
+| Audit Trail | ✅ |
+| Admin Dashboard | ✅ |
+| Global Exception Handling | ✅ |
+| PostgreSQL Integration | ✅ |
+
+---
+
+# 🚧 Future Enhancements
+
+Potential future improvements include:
+
+- W3C Verifiable Credentials
+- Ownership Transfer
+- Co-Ownership Support
+- IP Licensing
+- Smart Contract Licensing
+- Royalty Management
+- Multiple Evidence Versions
+- Cloud Object Storage
+- Email Notifications
+- Advanced Admin Dashboard
+- API Rate Limiting
+- Docker Containerization
+- CI/CD Pipeline
+- Cloud Deployment
+- Automated Unit Testing
+- Integration Testing
+- Improved Test Coverage
+
+---
+
+# ⚠️ Disclaimer
 
 IPR TrustChain provides a digital evidence, provenance, and verification layer.
 
-A blockchain transaction, SHA-256 hash, or Digital IP Passport should not by itself be interpreted as statutory Intellectual Property registration or definitive legal ownership.
+A blockchain transaction, SHA-256 hash, Digital Identity, or Digital IP Passport should not by itself be interpreted as statutory Intellectual Property registration or definitive legal ownership.
 
-The platform is designed to complement existing Intellectual Property offices, legal processes, government systems, universities, and enterprise workflows.
+The platform is intended to complement existing Intellectual Property offices, legal processes, government systems, universities, and enterprise workflows.
 
-👩‍💻 Developer
+---
 
-Arpitha C
+# 👩‍💻 Author
 
-📌 Project Vision
+**Arpitha C**
 
-Identify the Creator.
-Authenticate the IP.
-Prove the Provenance.
-Secure the Rights.
-Automate the Value.
+---
+
+# ⭐ Project Status
+
+**MVP Completed**
+
+The current version demonstrates a complete Intellectual Property evidence lifecycle, from creator registration and Digital Identity generation to evidence hashing, blockchain-backed proof registration, public verification, tamper detection, QR verification, Digital IP Passport generation, and audit tracking.
