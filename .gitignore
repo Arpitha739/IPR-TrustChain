@@ -1,0 +1,60 @@
+# ==========================================
+# Eclipse Workspace
+# ==========================================
+.metadata/
+.settings/
+
+# ==========================================
+# Java / Spring Boot
+# ==========================================
+target/
+*.class
+
+# Real application configuration containing secrets
+ipr-trustchain-backend/src/main/resources/application.properties
+ipr-trustchain-backend/src/main/resources/application.yml
+
+# ==========================================
+# Node / React
+# ==========================================
+node_modules/
+dist/
+build/
+
+# Environment files
+.env
+.env.*
+!.env.example
+
+# ==========================================
+# IDE Files
+# ==========================================
+.idea/
+.vscode/
+*.iml
+
+# ==========================================
+# Logs
+# ==========================================
+*.log
+
+# ==========================================
+# OS Files
+# ==========================================
+.DS_Store
+Thumbs.db
+
+# ==========================================
+# Blockchain Secrets / Private Keys
+# ==========================================
+*.pem
+*.key
+secrets.json
+
+
+
+# Uploaded files
+uploads/
+
+# Backend uploads
+ipr-trustchain-backend/uploads/

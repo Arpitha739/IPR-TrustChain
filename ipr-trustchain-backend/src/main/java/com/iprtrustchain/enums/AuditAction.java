@@ -1,0 +1,14 @@
+package com.iprtrustchain.enums;
+
+public enum AuditAction {
+
+    USER_CREATED,
+    USER_LOGIN,
+    IDENTITY_CREATED,
+    IP_CREATED,
+    DOCUMENT_UPLOADED,
+    HASH_GENERATED,
+    BLOCKCHAIN_REGISTERED,
+    EVIDENCE_VERIFIED,
+    PASSWORD_RESET
+}

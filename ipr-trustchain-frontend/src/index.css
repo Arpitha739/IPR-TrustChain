@@ -1,0 +1,34 @@
+@import "tailwindcss";
+
+@theme {
+  --color-trust-950: #06111f;
+  --color-trust-900: #0a1929;
+  --color-trust-800: #102a43;
+
+  --color-accent: #22c55e;
+  --color-accent-light: #4ade80;
+
+  --color-electric: #38bdf8;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  background: #06111f;
+  color: white;
+  font-family:
+    Inter,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+}
