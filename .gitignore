@@ -11,7 +11,7 @@ target/
 *.class
 
 # Real application configuration containing secrets
-ipr-trustchain-backend/src/main/resources/application.properties
+
 ipr-trustchain-backend/src/main/resources/application.yml
 
 # ==========================================
