@@ -25,10 +25,10 @@ public class BlockchainVerificationService {
             Map<String, Object> response =
                     restClient.get()
 
-                            .uri(
-                                    "http://localhost:3001/blockchain/verify/{hash}",
-                                    fileHash
-                            )
+                    .uri(
+                    	    "https://ipr-trustchain-blockchain.onrender.com/blockchain/verify/{hash}",
+                    	    fileHash
+                    	)
 
                             .retrieve()
 

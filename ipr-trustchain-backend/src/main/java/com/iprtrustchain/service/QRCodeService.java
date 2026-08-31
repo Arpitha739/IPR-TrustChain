@@ -39,7 +39,7 @@ public class QRCodeService {
                         );
 
         String verificationUrl =
-                "http://localhost:5173/verify/"
+        		"https://ipr-trustchain-frontend.onrender.com/verify/"
                 + intellectualProperty.getIpIdentifier();
 
         QRCodeWriter qrCodeWriter =
