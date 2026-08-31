@@ -11,6 +11,7 @@ import com.iprtrustchain.dto.BlockchainResponse;
 import com.iprtrustchain.entity.Document;
 import com.iprtrustchain.enums.AuditAction;
 import com.iprtrustchain.repository.DocumentRepository;
+import org.springframework.beans.factory.annotation.Value;
 
 @Service
 public class BlockchainService {
@@ -20,6 +21,9 @@ public class BlockchainService {
     private final AuditLogService auditLogService;
 
     private final RestTemplate restTemplate;
+    
+    @Value("${blockchain.api.url}")
+    private String blockchainApiUrl;
 
 
     public BlockchainService(
@@ -71,8 +75,7 @@ public class BlockchainService {
 
         // Node.js blockchain API URL
 
-        String blockchainApiUrl =
-                "http://localhost:3001/blockchain/register";
+        
 
 
         // Request body
