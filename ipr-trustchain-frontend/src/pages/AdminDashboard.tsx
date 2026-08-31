@@ -48,7 +48,7 @@ type ActiveSection =
   | "ip-assets"
   | "audit-logs";
 
-const API_URL = "http://localhost:8080/api";
+const API_URL = "https://ipr-trustchain-backend.onrender.com/api";
 
 function AdminDashboard() {
   const { token, logout, user } = useAuth();
