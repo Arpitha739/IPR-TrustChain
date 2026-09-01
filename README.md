@@ -340,40 +340,83 @@ The project contains a dedicated blockchain module:
 ipr-trustchain-blockchain/
 ```
 
-The blockchain layer is responsible for maintaining tamper-evident proof associated with IP evidence.
+The blockchain layer provides tamper-evident proof for registered IP evidence by recording the SHA-256 hash of evidence documents on the Ethereum Sepolia test network.
 
-Blockchain records can include:
+The Blockchain API acts as a bridge between the Spring Boot backend and the Solidity smart contract.
 
-- IP Asset Identifier
-- Evidence SHA-256 Hash
-- Creator Digital Identity
-- Timestamp
-- Transaction Identifier
-
-Example transaction reference:
+## Blockchain Flow
 
 ```text
-0xcd4d84bdc4775297276c35107dc32508d9d12c45f1e292290f8d71131d9b28ef
+Evidence Document
+        ↓
+SHA-256 Hash Generated
+        ↓
+Spring Boot Backend
+        ↓
+Node.js Blockchain API
+        ↓
+Alchemy JSON-RPC
+        ↓
+Ethereum Sepolia
+        ↓
+IPRRegistry Smart Contract
+        ↓
+Hash Registered On-Chain
 ```
 
-## The Blockchain Layer Does Not Store
+The smart contract records:
 
-- Original Documents
-- Passwords
-- Email Addresses
-- Mobile Numbers
-- Sensitive Personal Information
-- Confidential IP Content
+- Evidence SHA-256 Hash
+- Blockchain Registration Timestamp
+- Blockchain Registration Address
+
+The blockchain transaction hash is returned from the blockchain transaction and stored by the backend for traceability.
+
+IP metadata, Digital Identity information, and original evidence documents remain off-chain.
+
+## Blockchain Network
+
+- Network: Ethereum Sepolia Test Network
+- RPC Provider: Alchemy
+- Smart Contract: `IPRRegistry`
+- Contract Address:
+
+```text
+0x99F7b8Aef8cf00B8Cb62b1E5f808bc1403ae7C1a
+```
+
+> The contract address is public blockchain information. Private keys, API keys, database credentials, and other secrets must never be committed to the repository.
 
 ---
 
 # 📜 Smart Contract
 
-The blockchain module contains a Solidity smart contract responsible for recording IP-related cryptographic proof.
+The blockchain module contains the `IPRRegistry` Solidity smart contract.
 
-The smart contract acts as a trust and verification layer rather than a storage location for complete documents.
+The contract provides two primary operations:
 
-Its purpose is to support blockchain-backed registration and verification of cryptographic evidence associated with Intellectual Property assets.
+- `registerHash()` — registers an evidence SHA-256 hash on-chain.
+- `verifyHash()` — checks whether a previously registered hash exists.
+
+Each registered hash is associated with:
+
+- Evidence SHA-256 hash
+- Blockchain timestamp
+- Blockchain registration address
+
+The smart contract stores cryptographic proof rather than the original evidence document.
+
+The contract is deployed on the Ethereum Sepolia test network.
+
+```solidity
+struct IPRecord {
+    string fileHash;
+    uint256 timestamp;
+    address registeredBy;
+}
+```
+
+The blockchain therefore acts as a cryptographic verification layer rather than a storage location for complete IP documents.
 
 ---
 
@@ -606,9 +649,22 @@ GET  /api/documents/{id}
 
 ## Blockchain
 
+Spring Boot application:
+
 ```text
 POST /api/blockchain/register
-GET  /api/blockchain/{assetId}
+GET /api/blockchain/{assetId}
+```
+
+Internal Node.js Blockchain API:
+
+```text
+POST /blockchain/register
+GET  /blockchain/verify/{hash}
+```
+
+The internal Blockchain API communicates with the `IPRRegistry` smart contract on Ethereum Sepolia in production.
+
 ```
 
 ## Verification
@@ -657,15 +713,27 @@ Install:
 
 # ⚠️ Important: Required Services
 
-IPR TrustChain runs as multiple local services.
+IPR TrustChain can be operated in two environments:
 
-For the complete application to work correctly, the following components should be running:
+### Local Development
 
 1. PostgreSQL Database
-2. Hardhat Local Blockchain Node
+2. Hardhat Local Blockchain
 3. Node.js Blockchain API
 4. Spring Boot Backend
 5. React Frontend
+
+### Production Deployment
+
+1. React Frontend
+2. Spring Boot Backend
+3. PostgreSQL Database
+4. Node.js Blockchain API
+5. Alchemy RPC
+6. Ethereum Sepolia Network
+7. Deployed `IPRRegistry` Smart Contract
+
+> The production deployment does not require a local Hardhat blockchain node.
 
 ---
 
@@ -682,6 +750,8 @@ Make sure PostgreSQL is running before starting the Spring Boot backend.
 ---
 
 # ⛓️ Step 2: Start the Local Blockchain Network
+
+> This step is required only for local blockchain development. The deployed production application uses Ethereum Sepolia.
 
 Open a terminal and navigate to the blockchain project:
 
@@ -707,21 +777,21 @@ Start the local Hardhat blockchain network:
 npx hardhat node
 ```
 
-The local blockchain network runs at:
+The local development blockchain runs at:
 
 ```text
 http://127.0.0.1:8545
 ```
 
-Keep this terminal running while using the application.
+Keep this terminal running while using the application locally.
 
-The local blockchain automatically deploys the `IPRRegistry` smart contract when the configured development environment starts.
+> Do not run the Hardhat local node for the production deployment. The production Blockchain API connects to the Ethereum Sepolia network through Alchemy.
 
 ---
 
 # 🔗 Step 3: Start the Blockchain API
 
-Open a **new terminal** inside the blockchain project directory:
+Open a new terminal inside the blockchain project directory:
 
 ```bash
 cd ipr-trustchain-blockchain
@@ -733,7 +803,7 @@ Start the Blockchain API:
 npx tsx server.ts
 ```
 
-The Blockchain API runs on:
+The Blockchain API runs locally on:
 
 ```text
 http://localhost:3001
@@ -745,9 +815,18 @@ Expected output:
 Blockchain API running on port 3001
 ```
 
-Keep this terminal running.
+The Blockchain API provides the following internal endpoints:
 
-The Blockchain API acts as a bridge between the Spring Boot backend and the Solidity smart contract running on the local Hardhat blockchain.
+```text
+POST /blockchain/register
+GET  /blockchain/verify/{hash}
+```
+
+In local development, the Blockchain API can connect to the local Hardhat blockchain.
+
+In production, the Blockchain API connects to the deployed `IPRRegistry` smart contract on Ethereum Sepolia through an Alchemy JSON-RPC endpoint.
+
+> The production Blockchain API uses environment variables for the RPC URL, private key, and contract address. These credentials must never be committed to GitHub.
 
 ---
 
@@ -881,7 +960,9 @@ http://localhost:5173
 
 # 🔄 Complete Startup Order
 
-For the smoothest local execution, start the services in the following order:
+## Local Development
+
+For local development, start the services in the following order:
 
 ```text
 1. PostgreSQL
@@ -899,7 +980,25 @@ For the smoothest local execution, start the services in the following order:
    npm run dev
 ```
 
-All services should remain running while using the application.
+## Production
+
+The deployed application uses:
+
+```text
+React Frontend
+        ↓
+Spring Boot Backend
+        ↓
+Node.js Blockchain API
+        ↓
+Alchemy RPC
+        ↓
+Ethereum Sepolia
+        ↓
+IPRRegistry Smart Contract
+```
+
+The production Blockchain API does not start a local Hardhat blockchain or redeploy the smart contract during normal application startup.
 
 ---
 
@@ -1062,7 +1161,6 @@ Potential future improvements include:
 - API Rate Limiting
 - Docker Containerization
 - CI/CD Pipeline
-- Cloud Deployment
 - Automated Unit Testing
 - Integration Testing
 - Improved Test Coverage
@@ -1114,9 +1212,38 @@ https://ipr-trustchain-blockchain.onrender.com
 | Backend | Spring Boot + Java | Render |
 | Database | PostgreSQL | Render PostgreSQL |
 | Blockchain API | Node.js + TypeScript | Render |
-| Smart Contract | Solidity | Deployed Blockchain Network |
+| Smart Contract | Solidity | Ethereum Sepolia |
+
+### ⛓️ Blockchain Deployment
+
+| Property | Value |
+|---|---|
+| Network | Ethereum Sepolia |
+| RPC Provider | Alchemy |
+| Smart Contract | `IPRRegistry` |
+| Contract Address | `0x99F7b8Aef8cf00B8Cb62b1E5f808bc1403ae7C1a` |
 
 ### 🏗️ Production Architecture
+
+```text
+React Frontend
+      ↓
+Spring Boot Backend
+      ↓
+Node.js Blockchain API
+      ↓
+Alchemy RPC
+      ↓
+Ethereum Sepolia
+      ↓
+IPRRegistry Smart Contract
+```
+
+The smart contract provides blockchain-backed cryptographic evidence registration and verification.
+
+The blockchain stores evidence hashes and registration information, while original documents and application metadata remain off-chain.
+
+# ☁️ Production Architecture
 
 ```text
                     ┌─────────────────────────┐
@@ -1124,13 +1251,13 @@ https://ipr-trustchain-blockchain.onrender.com
                     │   Render Deployment     │
                     └────────────┬────────────┘
                                  │
-                                 │ HTTPS / REST API
+                                 │ HTTPS / REST
                                  ▼
                     ┌─────────────────────────┐
                     │   Spring Boot Backend   │
                     │   Render Deployment     │
-                    │    JWT + Security        │
-                    └──────────┬───────┬───────┘
+                    │     JWT + Security      │
+                    └──────────┬───────┬──────┘
                                │       │
                          ┌─────┘       └─────┐
                          ▼                   ▼
@@ -1140,15 +1267,26 @@ https://ipr-trustchain-blockchain.onrender.com
                 └────────────────┘  │ Render           │
                                     └────────┬─────────┘
                                              │
+                                             │ JSON-RPC
                                              ▼
                                     ┌──────────────────┐
-                                    │ Solidity Smart   │
-                                    │ Contract         │
-                                    │ IPRRegistry      │
+                                    │      Alchemy     │
+                                    │    RPC Provider  │
                                     └────────┬─────────┘
                                              │
                                              ▼
                                     ┌──────────────────┐
-                                    │   Blockchain     │
-                                    │   Network        │
+                                    │ Ethereum Sepolia │
+                                    │  Test Network    │
+                                    └────────┬─────────┘
+                                             │
+                                             ▼
+                                    ┌──────────────────┐
+                                    │   IPRRegistry    │
+                                    │ Solidity Contract│
                                     └──────────────────┘
+```
+
+The production deployment uses Ethereum Sepolia for blockchain-backed evidence registration and verification.
+
+The original evidence documents and application metadata remain off-chain.
