@@ -1223,20 +1223,6 @@ https://ipr-trustchain-blockchain.onrender.com
 | Smart Contract | `IPRRegistry` |
 | Contract Address | `0x99F7b8Aef8cf00B8Cb62b1E5f808bc1403ae7C1a` |
 
-### 🏗️ Production Architecture
-
-```text
-React Frontend
-      ↓
-Spring Boot Backend
-      ↓
-Node.js Blockchain API
-      ↓
-Alchemy RPC
-      ↓
-Ethereum Sepolia
-      ↓
-IPRRegistry Smart Contract
 ```
 
 The smart contract provides blockchain-backed cryptographic evidence registration and verification.
