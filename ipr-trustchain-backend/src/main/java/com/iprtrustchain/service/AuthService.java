@@ -1,5 +1,8 @@
 package com.iprtrustchain.service;
 
+import java.time.LocalDateTime;
+import java.util.Random;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -14,11 +17,6 @@ import com.iprtrustchain.entity.User;
 import com.iprtrustchain.enums.AuditAction;
 import com.iprtrustchain.repository.UserRepository;
 import com.iprtrustchain.security.JwtService;
-import java.time.LocalDateTime;
-import java.util.Random;
-
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
 
 @Service
 public class AuthService {
@@ -30,9 +28,8 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
     private final AuditLogService auditLogService;
     private final JwtService jwtService;
-    private final JavaMailSender mailSender;
-    
     private final IdentityService identityService;
+    private final EmailService emailService;
 
     public AuthService(
             UserRepository userRepository,
@@ -40,14 +37,14 @@ public class AuthService {
             AuditLogService auditLogService,
             JwtService jwtService,
             IdentityService identityService,
-            JavaMailSender mailSender) {
+            EmailService emailService) {
 
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.auditLogService = auditLogService;
         this.jwtService = jwtService;
         this.identityService = identityService;
-        this.mailSender = mailSender;
+        this.emailService = emailService;
     }
 
     public String register(RegisterRequest request) {
@@ -90,13 +87,12 @@ public class AuthService {
                 "New user registered with email: "
                         + savedUser.getEmail()
         );
-        
+
         if (savedUser.getRole().name().equals("CREATOR")) {
 
             identityService.createIdentity(
                     savedUser.getId()
             );
-
         }
 
         logger.info(
@@ -160,8 +156,9 @@ public class AuthService {
                 user.getRole()
         );
     }
-    
-    public String forgotPassword(ForgotPasswordRequest request) {
+
+    public String forgotPassword(
+            ForgotPasswordRequest request) {
 
         User user = userRepository
                 .findByEmail(request.getEmail())
@@ -184,23 +181,11 @@ public class AuthService {
 
         userRepository.save(user);
 
-        SimpleMailMessage message =
-                new SimpleMailMessage();
-
-        message.setTo(user.getEmail());
-
-        message.setSubject(
-                "IPR TrustChain - Password Reset OTP"
+        // Send OTP using Resend
+        emailService.sendOtpEmail(
+                user.getEmail(),
+                otp
         );
-
-        message.setText(
-                "Your password reset OTP is: "
-                        + otp
-                        + "\n\nThis OTP will expire in 10 minutes."
-                        + "\n\nIf you did not request this, please ignore this email."
-        );
-
-        mailSender.send(message);
 
         logger.info(
                 "Password reset OTP sent to user ID: {}",
