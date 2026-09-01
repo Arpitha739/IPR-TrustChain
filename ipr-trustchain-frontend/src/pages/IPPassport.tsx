@@ -187,10 +187,10 @@ const IPPassport = () => {
   }
 
 
-  const qrCodeUrl =
-    `http://localhost:8080/api/qr/${encodeURIComponent(
-      passport.ipIdentifier
-    )}`;
+const qrCodeUrl =
+  `https://ipr-trustchain-backend.onrender.com/api/qr/${encodeURIComponent(
+    passport.ipIdentifier
+  )}`;
 
 
   return (
