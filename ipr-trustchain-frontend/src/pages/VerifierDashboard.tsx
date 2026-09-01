@@ -1,5 +1,5 @@
 import { useState } from "react";
-import axios from "axios";
+import api from "../api/axios";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
@@ -18,7 +18,7 @@ interface VerificationResponse {
 function VerifierDashboard() {
   const navigate = useNavigate();
 
-  const { user, logout, token } = useAuth();
+  const { user, logout } = useAuth();
 
   const [ipIdentifier, setIpIdentifier] = useState("");
 
@@ -50,17 +50,22 @@ function VerifierDashboard() {
       setError("");
       setVerificationResult(null);
 
+      // const response =
+      //   await axios.get<VerificationResponse>(
+      //     `http://localhost:8080/api/verify/${ipIdentifier.trim()}`,
+      //     {
+      //       headers: {
+      //         Authorization: token
+      //           ? `Bearer ${token}`
+      //           : "",
+      //       },
+      //     }
+      //   );
+
       const response =
-        await axios.get<VerificationResponse>(
-          `http://localhost:8080/api/verify/${ipIdentifier.trim()}`,
-          {
-            headers: {
-              Authorization: token
-                ? `Bearer ${token}`
-                : "",
-            },
-          }
-        );
+  await api.get<VerificationResponse>(
+    `/verify/${ipIdentifier.trim()}`
+  );
 
       setVerificationResult(response.data);
 
@@ -104,18 +109,24 @@ function VerifierDashboard() {
         selectedFile
       );
 
+      // const response =
+      //   await axios.post<VerificationResponse>(
+      //     `http://localhost:8080/api/verify/${ipIdentifier.trim()}/evidence`,
+      //     formData,
+      //     {
+      //       headers: {
+      //         Authorization: token
+      //           ? `Bearer ${token}`
+      //           : "",
+      //       },
+      //     }
+      //   );
+
       const response =
-        await axios.post<VerificationResponse>(
-          `http://localhost:8080/api/verify/${ipIdentifier.trim()}/evidence`,
-          formData,
-          {
-            headers: {
-              Authorization: token
-                ? `Bearer ${token}`
-                : "",
-            },
-          }
-        );
+  await api.post<VerificationResponse>(
+    `/verify/${ipIdentifier.trim()}/evidence`,
+    formData
+  );
 
       setVerificationResult(response.data);
 
