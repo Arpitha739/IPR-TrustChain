@@ -1093,130 +1093,62 @@ The current version demonstrates a complete Intellectual Property evidence lifec
 
 ## 🚀 Deployment Status
 
-> ⚠️ **Currently, IPR TrustChain is running in a local development environment and has not yet been deployed to a public cloud platform.**
+> ✅ **IPR TrustChain is successfully deployed and accessible through a public cloud environment.**
 
-### Current Development Environment
+### 🌐 Live Application
 
-| Component | Technology | Environment |
+**Frontend:**  
+https://ipr-trustchain-frontend.onrender.com
+
+**Backend API:**  
+https://ipr-trustchain-backend.onrender.com
+
+**Blockchain API:**  
+https://ipr-trustchain-blockchain.onrender.com
+
+### ☁️ Deployed Services
+
+| Component | Technology | Deployment |
 |---|---|---|
-| Frontend | React + TypeScript + Vite | `http://localhost:5173` |
-| Backend | Spring Boot + Java | `http://localhost:8080` |
-| Blockchain API | Node.js + TypeScript | `http://localhost:3001` |
-| Blockchain Network | Hardhat Local Node | `http://127.0.0.1:8545` |
-| Database | PostgreSQL | Local Instance |
+| Frontend | React + TypeScript + Vite | Render |
+| Backend | Spring Boot + Java | Render |
+| Database | PostgreSQL | Render PostgreSQL |
+| Blockchain API | Node.js + TypeScript | Render |
+| Smart Contract | Solidity | Deployed Blockchain Network |
 
----
-
-### Local System Architecture
+### 🏗️ Production Architecture
 
 ```text
-React Frontend
-     │
-     │ REST API / Axios
-     ▼
-Spring Boot Backend
-     │
-     ├──────────────► PostgreSQL Database
-     │
-     │ HTTP Request
-     ▼
-Node.js Blockchain API
-     │
-     ▼
-Solidity Smart Contract
-     │
-     ▼
-Blockchain Network
-```
-
-The Spring Boot backend communicates with the Node.js Blockchain API through REST API requests.
-
-During evidence registration:
-
-```text
-Evidence Document
-        ↓
-SHA-256 Hash Generation
-        ↓
-Spring Boot Backend
-        ↓
-Node.js Blockchain API
-        ↓
-Solidity Smart Contract
-        ↓
-Blockchain Transaction
-        ↓
-Transaction Information Returned to Backend
-```
-
-> **Note:** `http://localhost:3001` represents the local Node.js Blockchain API/service, not the blockchain network itself.
-
----
-
-### URL Configuration After Deployment
-
-After deployment, all local development URLs must be replaced with the deployed production URLs.
-
-For example:
-
-```text
-Current Local Frontend:
-http://localhost:5173
-
-Future Deployed Frontend:
-https://your-frontend-url.com
-```
-
-Similarly:
-
-```text
-Current Local Backend:
-http://localhost:8080
-
-Future Deployed Backend:
-https://your-backend-url.com
-```
-
-And:
-
-```text
-Current Local Blockchain API:
-http://localhost:3001
-
-Future Deployed Blockchain API:
-https://your-blockchain-api-url.com
-```
-
----
-
-### QR Verification URL
-
-The QR code currently generates a public verification URL using the local frontend address:
-
-```text
-http://localhost:5173/verify/{IP_IDENTIFIER}
-```
-
-For example:
-
-```text
-http://localhost:5173/verify/IPR-493d8628-e0d4-4b02-832b-f26ab8b0f0e4
-```
-
-After deployment, the QR verification URL must be updated to use the deployed frontend URL:
-
-```text
-https://your-frontend-url.com/verify/{IP_IDENTIFIER}
-```
-
-For example:
-
-```text
-https://your-frontend-url.com/verify/IPR-493d8628-e0d4-4b02-832b-f26ab8b0f0e4
-```
-
-This ensures that users can scan the QR code from any device and access the public IP verification page.
-
-> **Important:** Production URLs should be configured using environment variables or application configuration instead of hardcoding `localhost` URLs.
-
----
+                    ┌─────────────────────────┐
+                    │    React Frontend       │
+                    │   Render Deployment     │
+                    └────────────┬────────────┘
+                                 │
+                                 │ HTTPS / REST API
+                                 ▼
+                    ┌─────────────────────────┐
+                    │   Spring Boot Backend   │
+                    │   Render Deployment     │
+                    │    JWT + Security        │
+                    └──────────┬───────┬───────┘
+                               │       │
+                         ┌─────┘       └─────┐
+                         ▼                   ▼
+                ┌────────────────┐  ┌──────────────────┐
+                │   PostgreSQL   │  │  Blockchain API  │
+                │   Render DB    │  │ Node.js + TS     │
+                └────────────────┘  │ Render           │
+                                    └────────┬─────────┘
+                                             │
+                                             ▼
+                                    ┌──────────────────┐
+                                    │ Solidity Smart   │
+                                    │ Contract         │
+                                    │ IPRRegistry      │
+                                    └────────┬─────────┘
+                                             │
+                                             ▼
+                                    ┌──────────────────┐
+                                    │   Blockchain     │
+                                    │   Network        │
+                                    └──────────────────┘
