@@ -1223,8 +1223,6 @@ https://ipr-trustchain-blockchain.onrender.com
 | Smart Contract | `IPRRegistry` |
 | Contract Address | `0x99F7b8Aef8cf00B8Cb62b1E5f808bc1403ae7C1a` |
 
-```
-
 The smart contract provides blockchain-backed cryptographic evidence registration and verification.
 
 The blockchain stores evidence hashes and registration information, while original documents and application metadata remain off-chain.
