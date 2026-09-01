@@ -1,5 +1,6 @@
 import express from "express";
 import { ethers } from "ethers";
+import "dotenv/config";
 
 const app = express();
 
@@ -7,43 +8,41 @@ app.use(express.json());
 
 const PORT = Number(process.env.PORT) || 3001;
 
-const CONTRACT_ADDRESS =
-    process.env.CONTRACT_ADDRESS ||
-    "0x5FbDB2315678afecb367f032d93F642f64180aa3";
+const CONTRACT_ADDRESS = process.env.CONTRACT_ADDRESS;
 
-const RPC_URL =
-    process.env.RPC_URL ||
-    "http://127.0.0.1:8545";
+const RPC_URL = process.env.RPC_URL;
 
-const PRIVATE_KEY =
-    process.env.PRIVATE_KEY ||
-    "0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80";
+const PRIVATE_KEY = process.env.PRIVATE_KEY;
+
+if (!CONTRACT_ADDRESS) {
+    throw new Error("CONTRACT_ADDRESS environment variable is missing");
+}
+
+if (!RPC_URL) {
+    throw new Error("RPC_URL environment variable is missing");
+}
+
+if (!PRIVATE_KEY) {
+    throw new Error("PRIVATE_KEY environment variable is missing");
+}
+
 const ABI = [
-
     "function registerHash(string fileHash) public",
-
     "function verifyHash(string fileHash) public view returns (bool, uint256, address)"
-
 ];
 
+const provider = new ethers.JsonRpcProvider(RPC_URL);
 
-const provider =
-    new ethers.JsonRpcProvider(RPC_URL);
+const wallet = new ethers.Wallet(
+    PRIVATE_KEY,
+    provider
+);
 
-
-const wallet =
-    new ethers.Wallet(
-        PRIVATE_KEY,
-        provider
-    );
-
-
-const contract =
-    new ethers.Contract(
-        CONTRACT_ADDRESS,
-        ABI,
-        wallet
-    );
+const contract = new ethers.Contract(
+    CONTRACT_ADDRESS,
+    ABI,
+    wallet
+);
 
 
 // REGISTER HASH
@@ -70,12 +69,10 @@ app.post(
                 documentHash
             );
 
-
             const existingRecord =
                 await contract.verifyHash(
                     documentHash
                 );
-
 
             if (existingRecord[0]) {
 
@@ -104,28 +101,23 @@ app.post(
 
             }
 
-
             console.log(
                 "Registering new hash:",
                 documentHash
             );
-
 
             const transaction =
                 await contract.registerHash(
                     documentHash
                 );
 
-
             console.log(
                 "Transaction sent:",
                 transaction.hash
             );
 
-
             const receipt =
                 await transaction.wait();
-
 
             res.json({
 
@@ -178,12 +170,10 @@ app.get(
             const documentHash =
                 req.params.hash;
 
-
             const result =
                 await contract.verifyHash(
                     documentHash
                 );
-
 
             res.json({
 
